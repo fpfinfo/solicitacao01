@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulário de Solicitação de Suprimento de Fundos</title>
+
+    <!-- Google Fonts: Inter -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <style>
+      /* Paleta de Cores e Tipografia */
+      :root {
+        --bg: #f7fafc;
+        --surface: #ffffff;
+        --primary: #1e3a8a;
+        --secondary: #f59e0b;
+        --neutral: #e2e8f0;
+        --text: #2d3748;
+        --text-light: #4a5568;
+        --error: #e53e3e;
+        --font: "Inter", sans-serif;
+        --line-height: 1.4;
+        --transition: 0.2s ease;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        font-family: var(--font);
+        color: var(--text);
+        line-height: var(--line-height);
+        display: flex;
+        justify-content: center;
+      }
+      /* Container A4 */
+      #page {
+        width: 210mm;
+        min-height: 297mm;
+        background: var(--surface);
+        padding: 10mm;
+        box-sizing: border-box;
+        margin: 10mm 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+        display: flex;
+        flex-direction: column;
+      }
+      @media print {
+        body {
+          background: none;
+        }
+        #page {
+          margin: 0;
+          box-shadow: none;
+        }
+        @page {
+          size: A4 portrait;
+          margin: 0;
+        }
+      }
+      /* Cabeçalho mais clean */
+      .form-header {
+        display: grid;
+        grid-template-columns: auto auto 1fr auto;
+        align-items: center;
+        gap: 4mm;
+        padding: 6mm 10mm 4mm;
+        background: rgba(30, 58, 138, 0.05);
+        border-bottom: 1pt dashed var(--neutral);
+        position: relative;
+      }
+      .header-accent-bar {
+        grid-column: 1/-1;
+        height: 3mm;
+        background: var(--secondary);
+        border-radius: 1mm;
+        margin-bottom: 4mm;
+      }
+      .logo svg {
+        width: 18mm;
+        height: auto;
+      }
+      .header-icon i {
+        font-size: 18pt;
+        color: var(--primary);
+      }
+      .titles h1 {
+        margin: 0;
+        font-size: 10pt;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+      .titles h2 {
+        margin: 2px 0;
+        font-size: 8pt;
+        font-weight: 500;
+        text-transform: uppercase;
+      }
+      .titles h4 {
+        margin: 4px 0 0;
+        font-size: 8pt;
+        font-weight: 500;
+        color: var(--secondary);
+      }
+      .meta {
+        font-size: 8pt;
+        color: var(--text-light);
+        text-align: right;
+      }
+      .meta small {
+        display: block;
+      }
+      /* Formulário */
+      #solicitacao-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6mm;
+        flex-grow: 1;
+      }
+      fieldset {
+        background: var(--neutral);
+        border: none;
+        padding: 6mm;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+      }
+      legend {
+        font-weight: 500;
+        font-size: 11pt;
+        margin-bottom: 4mm;
+      }
+      label {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 4mm;
+      }
+      label span {
+        font-size: 10pt;
+        margin-bottom: 2mm;
+        display: flex;
+        align-items: center;
+      }
+      label span i {
+        margin-right: 4px;
+        color: var(--secondary);
+      }
+      label input,
+      label textarea {
+        padding: 4mm;
+        font-size: 10pt;
+        border: 1px solid var(--neutral);
+        border-radius: 4px;
+        transition: border-color var(--transition), box-shadow var(--transition);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+      label input:focus,
+      label textarea:focus {
+        border-color: var(--secondary);
+        box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3);
+        outline: none;
+      }
+      label input:invalid,
+      label textarea:invalid {
+        border-color: var(--error);
+        background: rgba(229, 62, 62, 0.1);
+      }
+      #just-label textarea {
+        flex-grow: 1;
+        min-height: 60mm;
+      }
+      /* Botão e microinterações */
+      .form-actions {
+        grid-column: 1/-1;
+        text-align: center;
+        margin-top: 6mm;
+      }
+      .form-actions button {
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 6mm 12mm;
+        font-size: 11pt;
+        cursor: pointer;
+        transition: background var(--transition), transform var(--transition);
+      }
+      .form-actions button:hover {
+        background: var(--secondary);
+        transform: translateY(-2px);
+      }
+      /* Rodapé estilizado */
+      .print-footer {
+        font-size: 8pt;
+        color: var(--text-light);
+        border-top: 1px solid var(--neutral);
+        padding-top: 4mm;
+        text-align: center;
+        font-style: italic;
+        margin-top: 6mm;
+      }
+      /* Modo escuro aprimorado */
+      body.dark-mode {
+        background: #2d3748;
+        color: #e2e8f0;
+      }
+      body.dark-mode #page {
+        background: #4a5568;
+      }
+      body.dark-mode fieldset {
+        background: #2d3748;
+      }
+      body.dark-mode label input,
+      body.dark-mode label textarea {
+        background: #2d3748;
+        color: #e2e8f0;
+        border-color: #4a5568;
+      }
+      body.dark-mode .titles h1,
+      body.dark-mode .titles h4 {
+        color: var(--secondary);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="page">
+      <header class="form-header" role="banner">
+        <div class="header-accent-bar"></div>
+        <div class="logo">
+          <!-- SVG Logo TJPA Inline -->
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" fill="#1E3A8A" />
+            <text
+              x="50"
+              y="60"
+              font-size="40"
+              fill="#FFF"
+              text-anchor="middle"
+              font-family="Inter"
+            >
+              TJPA
+            </text>
+          </svg>
+        </div>
+        <div class="header-icon"><i class="fa fa-gavel"></i></div>
+        <div class="titles">
+          <h1>TRIBUNAL DE JUSTIÇA DO ESTADO DO PARÁ</h1>
+          <h2>SECRETARIA DE PLANEJAMENTO, COORDENAÇÃO E FINANÇAS</h2>
+          <h4>FORMULÁRIO DE SOLICITAÇÃO DE SUPRIMENTO DE FUNDOS</h4>
+        </div>
+        <div class="meta">
+          <small>Data emissão: 18/07/2025</small>
+          <small>Formulário v.1.0</small>
+        </div>
+      </header>
+
+      <form id="solicitacao-form" novalidate>
+        <fieldset>
+          <legend>Dados Pessoais</legend>
+          <label for="nome"
+            ><span><i class="fa fa-user"></i>Nome:</span
+            ><input type="text" id="nome" name="nome" required
+          /></label>
+          <label for="cpf"
+            ><span><i class="fa fa-id-card"></i>CPF:</span
+            ><input
+              type="text"
+              id="cpf"
+              name="cpf"
+              required
+              pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+          /></label>
+          <label for="matricula"
+            ><span><i class="fa fa-id-badge"></i>Matrícula:</span
+            ><input type="text" id="matricula" name="matricula" required
+          /></label>
+          <label for="telefone"
+            ><span><i class="fa fa-phone"></i>Telefone:</span
+            ><input
+              type="tel"
+              id="telefone"
+              name="telefone"
+              required
+              pattern="\(\d{2}\) \d{4,5}-\d{4}"
+          /></label>
+          <label for="cargo"
+            ><span><i class="fa fa-briefcase"></i>Cargo:</span
+            ><input type="text" id="cargo" name="cargo" required
+          /></label>
+          <label for="lotacao"
+            ><span><i class="fa fa-building"></i>Lotação:</span
+            ><input type="text" id="lotacao" name="lotacao" required
+          /></label>
+        </fieldset>
+        <fieldset>
+          <legend>Dados da Despesa</legend>
+          <label for="dataInicioDespesa"
+            ><span><i class="fa fa-calendar-alt"></i>Data Início:</span
+            ><input
+              type="date"
+              id="dataInicioDespesa"
+              name="dataInicioDespesa"
+              required
+          /></label>
+          <label for="dataFimDespesa"
+            ><span><i class="fa fa-calendar"></i>Data Fim:</span
+            ><input
+              type="date"
+              id="dataFimDespesa"
+              name="dataFimDespesa"
+              required
+          /></label>
+          <label for="responsavel"
+            ><span><i class="fa fa-user-tie"></i>Responsável:</span
+            ><input type="text" id="responsavel" name="responsavel" required
+          /></label>
+          <label id="just-label" for="justificativa"
+            ><span><i class="fa fa-file-alt"></i>Justificativa:</span
+            ><textarea
+              id="justificativa"
+              name="justificativa"
+              required
+            ></textarea>
+          </label>
+        </fieldset>
+        <div class="form-actions">
+          <button type="button" id="btnPrint">Salvar / Imprimir</button>
+        </div>
+      </form>
+
+      <div class="print-footer">
+        As informações aqui prestadas são verdadeiras. O servidor e o
+        responsável pela unidade são solidariamente responsáveis pelo conteúdo
+        deste formulário.
+      </div>
+    </div>
+
+    <script>
+      // Modo escuro toggle
+      const toggle = document.createElement("button");
+      toggle.id = "theme-toggle";
+      toggle.textContent = "🌓";
+      toggle.style.position = "absolute";
+      toggle.style.top = "5mm";
+      toggle.style.right = "5mm";
+      toggle.style.background = "none";
+      toggle.style.border = "none";
+      toggle.style.fontSize = "14pt";
+      toggle.style.cursor = "pointer";
+      document.body.appendChild(toggle);
+      toggle.onclick = () => document.body.classList.toggle("dark-mode");
+
+      // Imprimir
+      document.getElementById("btnPrint").onclick = (e) => {
+        e.preventDefault();
+        window.print();
+      };
+    </script>
+  </body>
+</html>
