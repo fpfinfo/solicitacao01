@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Serviço de Suprimento de Fundos</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      crossorigin="anonymous"
+    />
+    <style>
+      :root {
+        --primary: #003366;
+        --secondary: #ffc107;
+        --bg: #ffffff;
+        --text: #000000;
+        --light: #f4f4f4;
+        --accent: #e0e0e0;
+        --shadow: rgba(0, 0, 0, 0.1);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #121212;
+          --text: #f0f0f0;
+          --light: #1e1e1e;
+          --accent: #333;
+          --shadow: rgba(255, 255, 255, 0.1);
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        transition: background 0.4s ease, color 0.4s ease;
+      }
+
+      header {
+        background-color: var(--primary);
+        color: white;
+        padding: 1rem;
+        text-align: center;
+        box-shadow: 0 4px 6px var(--shadow);
+      }
+
+      header img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-bottom: 0.5rem;
+      }
+
+      nav {
+        display: flex;
+        justify-content: center;
+        background: var(--secondary);
+        flex-wrap: wrap;
+      }
+
+      nav button {
+        background: transparent;
+        border: none;
+        padding: 1rem;
+        cursor: pointer;
+        font-weight: bold;
+        color: var(--primary);
+        flex: 1 1 20%;
+        text-align: center;
+        transition: background 0.3s ease;
+      }
+
+      nav button:hover {
+        background-color: #ffe082;
+      }
+
+      .tab-content {
+        display: none;
+        padding: 2rem;
+        animation: fadeIn 0.5s ease;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .slider {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        padding: 1.5rem;
+        background: var(--light);
+        box-shadow: 0 2px 4px var(--shadow);
+        margin-bottom: 2rem;
+        min-height: 200px;
+        transition: min-height 0.5s ease;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+
+      .slider strong {
+        font-size: 1.2rem;
+      }
+
+      .slide {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      .slide.active {
+        display: block;
+        opacity: 1;
+      }
+
+      .slider-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1.5rem;
+      }
+
+      .slider-buttons button {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        font-weight: bold;
+        background-color: var(--secondary);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        color: var(--primary);
+      }
+
+      .slider-buttons button:hover {
+        background-color: #ffdb4d;
+      }
+
+      .dots {
+        text-align: center;
+        margin-top: 0.75rem;
+      }
+
+      .dot {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        margin: 0 6px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .dot.active {
+        background: var(--primary);
+      }
+
+      .counter {
+        text-align: center;
+        font-size: 1rem;
+        color: var(--text);
+        margin-top: 0.75rem;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .card {
+        background: var(--light);
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        padding: 1.2rem;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px var(--shadow);
+      }
+
+      .card i {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        color: var(--primary);
+      }
+
+      .card a {
+        display: block;
+        margin-top: 0.5rem;
+        color: var(--secondary);
+        font-weight: bold;
+        text-decoration: none;
+      }
+
+      .card a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img
+        src="https://tse3.mm.bing.net/th?id=OIP.pLX8nJ-4tvBr-DXIPNti-QAAAA&cb=iwc1&w=400&h=400&c=7"
+        alt="Logo TJPA"
+      />
+      <h1>Serviço de Suprimento de Fundos</h1>
+      <p>Tribunal de Justiça do Estado do Pará</p>
+    </header>
+
+    <nav>
+      <button onclick="showTab('apresentacao')">Apresentação</button>
+      <button onclick="showTab('solicitacao')">Solicitação</button>
+      <button onclick="showTab('execucao')">Execução</button>
+      <button onclick="showTab('prestacao')">Prestação de Contas</button>
+      <button onclick="showTab('modelos')">Modelos de Formulários</button>
+    </nav>
+
+    <main>
+      <section id="apresentacao" class="tab-content active">
+        <div class="slider" id="slider-apresentacao"></div>
+      </section>
+      <section id="solicitacao" class="tab-content">
+        <div class="slider" id="slider-solicitacao"></div>
+      </section>
+      <section id="execucao" class="tab-content">
+        <div class="slider" id="slider-execucao"></div>
+      </section>
+      <section id="prestacao" class="tab-content">
+        <div class="slider" id="slider-prestacao"></div>
+      </section>
+      <section id="modelos" class="tab-content">
+        <h2>📂 Modelos de Formulários</h2>
+        <div class="cards">
+          <div class="card">
+            <i class="fas fa-file-alt"></i>
+            <div>Solicitação Padrão</div>
+            <a href="#">Acessar</a>
+          </div>
+          <div class="card">
+            <i class="fas fa-file-invoice"></i>
+            <div>Prestação Simplificada</div>
+            <a href="#">Acessar</a>
+          </div>
+          <div class="card">
+            <i class="fas fa-receipt"></i>
+            <div>Recibo de Entrega</div>
+            <a href="#">Acessar</a>
+          </div>
+          <div class="card">
+            <i class="fas fa-file-signature"></i>
+            <div>Termo de Responsabilidade</div>
+            <a href="#">Acessar</a>
+          </div>
+          <div class="card">
+            <i class="fas fa-money-check-alt"></i>
+            <div>Relatório de Gastos</div>
+            <a href="#">Acessar</a>
+          </div>
+          <div class="card">
+            <i class="fas fa-clipboard-check"></i>
+            <div>Checklist de Execução</div>
+            <a href="#">Acessar</a>
+          </div>
+          <div class="card">
+            <i class="fas fa-file-export"></i>
+            <div>Solicitação Emergencial</div>
+            <a href="#">Acessar</a>
+          </div>
+          <div class="card">
+            <i class="fas fa-user-shield"></i>
+            <div>Autorização da Chefia</div>
+            <a href="#">Acessar</a>
+          </div>
+          <div class="card">
+            <i class="fas fa-folder-open"></i>
+            <div>Documentação Complementar</div>
+            <a href="#">Acessar</a>
+          </div>
+          <div class="card">
+            <i class="fas fa-file-medical"></i>
+            <div>Formulário de Avaliação</div>
+            <a href="#">Acessar</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const slidersData = {
+        apresentacao: [
+          "📘 <strong>Boas-Vindas ao Curso</strong><br />Seja muito bem-vindo(a) ao minicurso de Suprimento de Fundos do TJPA.",
+          "🎯 <strong>Objetivo do Curso</strong><br />Capacitar servidores para execução correta dos recursos públicos.",
+          "🧭 <strong>Público-Alvo</strong><br />Servidores que atuam com solicitações e execuções de suprimentos.",
+          "📅 <strong>Cronograma</strong><br />O curso será dividido em 4 encontros semanais.",
+          "📍 <strong>Local de Realização</strong><br />Ambiente virtual disponibilizado pelo TJPA.",
+          "💬 <strong>Contato</strong><br />Dúvidas? Envie e-mail para seplan@tjpa.jus.br.",
+          "📂 <strong>Material de Apoio</strong><br />Disponível na aba Execução após login.",
+          "👥 <strong>Equipe Técnica</strong><br />Equipe da SEPLAN e apoio da DCF.",
+          "📝 <strong>Avaliação</strong><br />Haverá avaliação online ao final do curso.",
+          "✅ <strong>Certificação</strong><br />Certificados digitais emitidos pela ESM.",
+        ],
+        solicitacao: [
+          "📑 <strong>Documentação Necessária</strong><br />RG, CPF, dados bancários e justificativa formal.",
+          "🗂️ <strong>Tipos de Despesas Permitidas</strong><br />Material de consumo, pequenos reparos, transporte local.",
+          "🚫 <strong>Despesas Proibidas</strong><br />Pagamento de pessoal, material permanente, serviços contínuos.",
+          "⏱️ <strong>Prazos de Solicitação</strong><br />Até o dia 10 de cada mês.",
+          "📄 <strong>Formulário de Solicitação</strong><br />Disponível na intranet em formato PDF editável.",
+          "🧾 <strong>Exemplos de Preenchimento</strong><br />Confira modelos prontos para não errar.",
+          "💰 <strong>Limite de Valores</strong><br />R$ 8.000,00 mensais por servidor.",
+          "🔐 <strong>Aprovação da Chefia</strong><br />Solicitação válida apenas com assinatura da chefia.",
+          "📦 <strong>Suprimento Emergencial</strong><br />Autorizado em situações urgentes.",
+          "📤 <strong>Envio Digital</strong><br />Encaminhamento via SEI ou e-mail institucional.",
+        ],
+        execucao: [
+          "🛒 <strong>Aquisições Permitidas</strong><br />Somente itens aprovados previamente.",
+          "💳 <strong>Formas de Pagamento</strong><br />Dinheiro ou cartão de suprimento TJPA.",
+          "🧾 <strong>Exigência de Nota Fiscal</strong><br />Obrigatória, com CNPJ e descrição clara.",
+          "📅 <strong>Prazo para Execução</strong><br />Até 30 dias após o repasse do valor.",
+          "📸 <strong>Registro Fotográfico</strong><br />Recomendado para obras, reformas ou manutenções.",
+          "🔍 <strong>Acompanhamento da SEPLAN</strong><br />Relatórios periódicos são avaliados pela equipe.",
+          "🚛 <strong>Transporte e Logística</strong><br />Custos devem ser planejados e justificados.",
+          "🛠️ <strong>Serviços Terceirizados</strong><br />Permitido apenas com contrato simplificado.",
+          "📘 <strong>Manual do Executor</strong><br />Disponível para download em PDF.",
+          "🧑‍💻 <strong>Relatório Parcial</strong><br />Necessário quando execução ultrapassa 20 dias.",
+        ],
+        prestacao: [
+          "📥 <strong>Envio de Prestação</strong><br />Até 5 dias úteis após término da execução.",
+          "📎 <strong>Documentos Obrigatórios</strong><br />Notas fiscais, recibos, relatório detalhado.",
+          "📅 <strong>Prazos de Análise</strong><br />Até 10 dias úteis após recebimento.",
+          "❌ <strong>Inconsistências Frequentes</strong><br />Notas ilegíveis, falta de justificativa, valores divergentes.",
+          "📤 <strong>Plataforma de Envio</strong><br />SEI ou formulário online padronizado.",
+          "📚 <strong>Manual de Prestação</strong><br />Consulte o guia completo para evitar erros.",
+          "📩 <strong>Comunicação com Fiscal</strong><br />Utilize sempre o e-mail institucional.",
+          "🔁 <strong>Devoluções e Reajustes</strong><br />Emitidos quando há saldo ou erro de execução.",
+          "🔒 <strong>Arquivamento de Documentos</strong><br />Responsabilidade do servidor por 5 anos.",
+          "✅ <strong>Aprovação Final</strong><br />Após validação, libera-se nova solicitação.",
+        ],
+      };
+
+      const showTab = (id) => {
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((tab) => tab.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+      };
+
+      const renderSliders = () => {
+        Object.keys(slidersData).forEach((sectionId) => {
+          const container = document.getElementById(`slider-${sectionId}`);
+          const slidesHTML = slidersData[sectionId]
+            .map(
+              (text, i) =>
+                `<div class="slide ${i === 0 ? "active" : ""}">${text}</div>`
+            )
+            .join("");
+          const counterHTML = `<div class="counter" id="counter-${sectionId}"></div>`;
+          const buttonsHTML = `<div class="slider-buttons"><button onclick="prevSlide('${sectionId}')">❮</button><button onclick="nextSlide('${sectionId}')">❯</button></div>`;
+          const dotsHTML = `<div class="dots" id="dots-${sectionId}"></div>`;
+          container.innerHTML =
+            slidesHTML + buttonsHTML + dotsHTML + counterHTML;
+        });
+      };
+
+      const initSliders = () => {
+        renderSliders();
+        document.querySelectorAll(".slider").forEach((slider) => {
+          const slides = slider.querySelectorAll(".slide");
+          const dotsContainer = slider.querySelector(".dots");
+          const sliderId = slider.id.replace("slider-", "");
+          slides.forEach((_, i) => {
+            const dot = document.createElement("span");
+            dot.className = "dot";
+            if (i === 0) dot.classList.add("active");
+            dot.onclick = () => showSlide(sliderId, i);
+            dotsContainer.appendChild(dot);
+          });
+          updateCounter(sliderId, 0, slides.length);
+        });
+      };
+
+      const showSlide = (sliderId, index) => {
+        const slider = document.getElementById(`slider-${sliderId}`);
+        const slides = slider.querySelectorAll(".slide");
+        const dots = slider.querySelectorAll(".dot");
+        slides.forEach((s) => s.classList.remove("active"));
+        dots.forEach((d) => d.classList.remove("active"));
+        slides[index].classList.add("active");
+        dots[index].classList.add("active");
+        updateCounter(sliderId, index, slides.length);
+      };
+
+      const nextSlide = (sliderId) => {
+        const slider = document.getElementById(`slider-${sliderId}`);
+        const slides = slider.querySelectorAll(".slide");
+        let activeIndex = [...slides].findIndex((s) =>
+          s.classList.contains("active")
+        );
+        let next = (activeIndex + 1) % slides.length;
+        showSlide(sliderId, next);
+      };
+
+      const prevSlide = (sliderId) => {
+        const slider = document.getElementById(`slider-${sliderId}`);
+        const slides = slider.querySelectorAll(".slide");
+        let activeIndex = [...slides].findIndex((s) =>
+          s.classList.contains("active")
+        );
+        let prev = (activeIndex - 1 + slides.length) % slides.length;
+        showSlide(sliderId, prev);
+      };
+
+      const updateCounter = (sliderId, current, total) => {
+        const counter = document.getElementById(`counter-${sliderId}`);
+        counter.textContent = `Slide ${current + 1} de ${total}`;
+      };
+
+      window.onload = initSliders;
+    </script>
+  </body>
+</html>
